@@ -4,13 +4,13 @@ const router = require("express").Router();
 
 router.post("/", async (req, res) => {
   const { uuid, emailTo, emailFrom } = req.body;
-  console.log(uuid, emailTo, emailFrom);
+  // console.log(uuid, emailTo, emailFrom);
   if (!uuid) {
     return res.status(422).send({ error: "All fields are required" });
   }
 
   const file = await File.findOne({ uuid: uuid });
-  console.log(file);
+  // console.log(file);
 
   // Validate Request
   if (file.sender) {
@@ -37,6 +37,7 @@ router.post("/", async (req, res) => {
     }),
   });
 
+  console.log("Mail sent");
   return res.send({ success: true });
   // res.json("Email page");
   // console.log("success");

@@ -22,7 +22,7 @@ app.set("view engine", "ejs");
 app.use("/api/files", require("./routes/files")); //Upload file route
 app.use("/files", require("./routes/show")); //Download page route
 app.use("/files/download", require("./routes/download")); //Download link route
-app.use("/api/files/send", require("./routes/send"));
+app.use("/api/files/send", require("./routes/send")); //Route for sending email
 
 app.get("/", (req, res) => {
   res.json({ message: "Server Up and running" });
