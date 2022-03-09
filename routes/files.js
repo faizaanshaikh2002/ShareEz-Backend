@@ -23,6 +23,7 @@ router.post("/", (req, res) => {
   upload(req, res, async (err) => {
     //   Validate request
     if (!req.file) {
+      console.log(req);
       return res.json({ error: "No files are provided" });
     }
 
