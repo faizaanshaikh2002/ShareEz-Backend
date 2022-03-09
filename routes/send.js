@@ -4,7 +4,7 @@ const router = require("express").Router();
 
 router.post("/", async (req, res) => {
   const { uuid, emailTo, emailFrom } = req.body;
-  // console.log(uuid, emailTo, emailFrom);
+  console.log(uuid, emailTo, emailFrom);
   if (!uuid) {
     return res.status(422).send({ error: "All fields are required" });
   }
