@@ -22,8 +22,8 @@ let upload = multer({
 router.post("/", (req, res) => {
   upload(req, res, async (err) => {
     //   Validate request
+    console.log(req);
     if (!req.file) {
-      console.log(req.file);
       return res.json({ error: "No files are provided" });
     }
 
