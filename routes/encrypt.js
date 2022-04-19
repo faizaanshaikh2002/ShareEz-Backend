@@ -1,15 +1,31 @@
 const router = require("express").Router();
 const multer = require("multer");
-
+const HummusRecipe = require("hummus-recipe");
+const path = require("path");
 let storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "encrypt/"),
   filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
+    const uniqueName = `${file.originalname}`;
     cb(null, uniqueName);
   },
 });
 
 let upload = multer({ storage: storage }).single("file");
+
+function encryptPdf(filename, password) {
+  const pdfDoc = new HummusRecipe(
+    `./encrypt/${filename}`,
+    `./encrypt/encrypted-${filename}`
+  );
+
+  pdfDoc
+    .encrypt({
+      userPassword: password,
+      ownerPassword: password,
+      userProtectionFlag: 4,
+    })
+    .endPDF();
+}
 
 router.post("/", function (req, res) {
   upload(req, res, function (err) {
@@ -18,8 +34,8 @@ router.post("/", function (req, res) {
     } else if (err) {
       return res.status(500).json(err);
     }
-    console.log(req.body.password);
-    return res.status(200).send(req.file);
+    encryptPdf(req.file.filename, req.body.password);
+    return res.download(`./encrypt/encrypted-${req.file.filename}`);
   });
 });
 
